@@ -772,4 +772,124 @@
   else on(window, 'load', startInvitationCycle);
 
   document.documentElement.classList.add('js');
+
+  /* ========================================================================
+     SST EDITION — carousel + detail modal
+     ======================================================================== */
+  var sstModal = $('#sstModal');
+  var sstCarousel = $('#sstCarousel');
+  var sstTrack = $('#sstTrack');
+  var sstPrev = $('#sstPrev');
+  var sstNext = $('#sstNext');
+  var sstDots = $('#sstDots');
+  var sstIndex = 0;
+  var sstSlides = sstTrack ? $all('.sst-carousel__slide', sstTrack) : [];
+  var sstLastFocus = null;
+
+  function sstUpdate() {
+    if (!sstTrack || !sstSlides.length) return;
+    sstTrack.style.transform = 'translateX(' + (-sstIndex * 100) + '%)';
+    $all('button', sstDots).forEach(function (d, i) {
+      if (i === sstIndex) d.setAttribute('aria-current', 'true');
+      else d.removeAttribute('aria-current');
+    });
+    $all('.sst-carousel__slide', sstTrack).forEach(function (s, i) {
+      s.setAttribute('aria-hidden', i === sstIndex ? 'false' : 'true');
+    });
+  }
+  function sstBuildDots() {
+    if (!sstDots || !sstSlides.length) return;
+    sstDots.innerHTML = '';
+    sstSlides.forEach(function (_, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-label', 'Go to cover ' + (i + 1));
+      on(b, 'click', function (e) {
+        e.stopPropagation();
+        sstIndex = i;
+        sstUpdate();
+      });
+      sstDots.appendChild(b);
+    });
+  }
+  function sstGo(dir) {
+    if (!sstSlides.length) return;
+    sstIndex = (sstIndex + dir + sstSlides.length) % sstSlides.length;
+    sstUpdate();
+  }
+  if (sstPrev) on(sstPrev, 'click', function (e) { e.stopPropagation(); sstGo(-1); });
+  if (sstNext) on(sstNext, 'click', function (e) { e.stopPropagation(); sstGo(1); });
+
+  // Keyboard support on the carousel (left/right when focused)
+  if (sstCarousel) {
+    sstCarousel.setAttribute('tabindex', '0');
+    on(sstCarousel, 'keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); sstGo(-1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); sstGo(1); }
+    });
+  }
+
+  // Touch / swipe support
+  if (sstTrack) {
+    var touchStartX = 0, touchDeltaX = 0, touching = false;
+    on(sstTrack, 'touchstart', function (e) {
+      touching = true;
+      touchStartX = e.touches[0].clientX;
+      touchDeltaX = 0;
+    }, { passive: true });
+    on(sstTrack, 'touchmove', function (e) {
+      if (!touching) return;
+      touchDeltaX = e.touches[0].clientX - touchStartX;
+    }, { passive: true });
+    on(sstTrack, 'touchend', function () {
+      if (!touching) return;
+      touching = false;
+      if (Math.abs(touchDeltaX) > 40) {
+        sstGo(touchDeltaX < 0 ? 1 : -1);
+      }
+    }, { passive: true });
+  }
+
+  sstBuildDots();
+  sstUpdate();
+
+  // SST modal open/close (image, card button, or SEE WHAT'S INSIDE)
+  function openSST(trigger) {
+    if (!sstModal) return;
+    sstLastFocus = trigger || document.activeElement;
+    sstModal.setAttribute('data-open', 'true');
+    document.body.style.overflow = 'hidden';
+    $all('[data-sst-open]').forEach(function (b) { b.setAttribute('aria-expanded', 'true'); });
+    setTimeout(function () { var c = $('.sst-modal__close', sstModal); if (c) c.focus(); }, 60);
+  }
+  function closeSST() {
+    if (!sstModal) return;
+    sstModal.setAttribute('data-open', 'false');
+    document.body.style.overflow = '';
+    $all('[data-sst-open]').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
+    if (sstLastFocus && sstLastFocus.focus) sstLastFocus.focus();
+  }
+  $all('[data-sst-open]').forEach(function (el) {
+    on(el, 'click', function (e) {
+      // If the click originated on a carousel nav/dot, let that handler run
+      if (e.target.closest('.sst-carousel__nav') || e.target.closest('.sst-carousel__dots')) return;
+      e.preventDefault();
+      openSST(el);
+    });
+  });
+  $all('[data-close-sst]').forEach(function (el) { on(el, 'click', closeSST); });
+  on(document, 'keydown', function (e) {
+    if (e.key === 'Escape' && sstModal.getAttribute('data-open') === 'true') closeSST();
+  });
+  // Focus trap inside SST modal
+  on(sstModal, 'keydown', function (e) {
+    if (e.key !== 'Tab' || sstModal.getAttribute('data-open') !== 'true') return;
+    var focusables = $all('a[href], button:not([disabled])', sstModal)
+      .filter(function (el) { return el.offsetParent !== null; });
+    if (!focusables.length) return;
+    var first = focusables[0], last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
 })();

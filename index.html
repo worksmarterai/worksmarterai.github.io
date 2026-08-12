@@ -151,6 +151,20 @@
             <a href="#method" class="btn btn--ghost-light btn--lg">SEE HOW THE SYSTEM WORKS</a>
           </div>
 
+          <div class="pay-reassure" role="note">
+            <div class="pay-reassure__head">
+              <span class="pay-reassure__title">NO CARD? NO PROBLEM.</span>
+              <span class="pay-reassure__methods" aria-label="Payment methods in order of prominence">
+                <span class="pay-reassure__method">BANK TRANSFER</span>
+                <span class="pay-reassure__dot" aria-hidden="true">•</span>
+                <span class="pay-reassure__method">USSD</span>
+                <span class="pay-reassure__dot" aria-hidden="true">•</span>
+                <span class="pay-reassure__method">CARD</span>
+              </span>
+            </div>
+            <p class="pay-reassure__body">Pay securely in Naira through Bank Transfer, USSD or Card at Selar checkout. Choose the payment option that is most convenient for you.</p>
+          </div>
+
           <p class="hero__channel">Prefer to explore useful material first? <a href="https://whatsapp.com/channel/0029VbDoGeyF1YlYCD3PCh3W" target="_blank" rel="noopener">Join Official WhatsApp Channel and Receive Free Lecturers&rsquo; AI Toolkit</a></p>
           <p class="hero__microcopy">No programming or prompt-engineering background is required. You bring the academic expertise; the guide shows you how to structure the task, inspect the output, correct weaknesses and keep the final decision.</p>
         </div>
@@ -820,7 +834,6 @@
           <div style="margin-top:1.4rem">
             <a href="https://whatsapp.com/channel/0029VbDoGeyF1YlYCD3PCh3W" class="btn btn--ghost-light" rel="noopener" target="_blank">Join Official WhatsApp Channel and Receive Free Lecturers&rsquo; AI Toolkit</a>
           </div>
-          <p style="margin-top:0.9rem;font-size:0.8rem;color:var(--c-muted-2)">Every purchase CTA leads to the verified Selar product: selar.com/k7j717m263. No countdown, no fabricated scarcity.</p>
         </div>
       </div>
     </section>
@@ -946,11 +959,24 @@
           <p class="section-lead">The University Lecturer Edition is the only available product today. Other editions are being developed. They are not yet available for purchase.</p>
         </div>
         <div class="editions">
-          <div class="edition reveal-on-scroll">
-            <div class="edition__placeholder" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
-            <h3>Secondary School Teachers Edition</h3>
-            <span class="edition__status edition__status--progress">IN PRODUCTION</span>
-            <div><span class="edition__btn" aria-disabled="true">COMING SOON</span></div>
+          <div class="edition edition--sst reveal-on-scroll">
+            <div class="sst-carousel" id="sstCarousel" role="region" aria-roledescription="carousel" aria-label="Secondary School Teachers Edition product covers">
+              <div class="sst-carousel__track" id="sstTrack">
+                <div class="sst-carousel__slide" role="group" aria-roledescription="slide" aria-label="1 of 3: Front and back cover"><img src="./assets/SST_front&amp;back_cover.png" alt="Secondary School Teachers Edition, front and back cover" loading="lazy" /></div>
+                <div class="sst-carousel__slide" role="group" aria-roledescription="slide" aria-label="2 of 3: Front cover"><img src="./assets/SST_frontcover.png" alt="Secondary School Teachers Edition, front cover" loading="lazy" /></div>
+                <div class="sst-carousel__slide" role="group" aria-roledescription="slide" aria-label="3 of 3: Back cover"><img src="./assets/SST_backcover.png" alt="Secondary School Teachers Edition, back cover" loading="lazy" /></div>
+              </div>
+              <button type="button" class="sst-carousel__nav sst-carousel__nav--prev" id="sstPrev" aria-label="Previous cover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+              <button type="button" class="sst-carousel__nav sst-carousel__nav--next" id="sstNext" aria-label="Next cover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+              <div class="sst-carousel__dots" id="sstDots" role="tablist" aria-label="Choose cover"></div>
+              <button type="button" class="sst-carousel__open" data-sst-open aria-label="Open the Secondary School Teachers Edition product detail panel" aria-haspopup="dialog" aria-expanded="false">SEE WHAT&rsquo;S INSIDE</button>
+            </div>
+            <h3>SECONDARY SCHOOL TEACHERS EDITION</h3>
+            <span class="edition__status edition__status--preorder">PRE-ORDER OPEN</span>
+            <div class="edition__price">Pre-Order ₦6,700 <span class="edition__price-ref">₦14,500</span> <span class="edition__price-off">54% OFF</span></div>
+            <div class="edition__launch">Launching 10 September 2026 at 12:00 a.m. WAT</div>
+            <p class="edition__urgency">The current ₦6,700 price and 54% discount are pre-order offers and will change after launch.</p>
+            <button type="button" class="btn btn--primary btn--sm edition__see" data-sst-open>SEE WHAT&rsquo;S INSIDE</button>
           </div>
           <div class="edition reveal-on-scroll">
             <div class="edition__placeholder" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
@@ -1123,6 +1149,97 @@
       <div class="proof-modal__foot">
         <a href="https://selar.com/k7j717m263" class="btn btn--primary btn--sm" rel="noopener" target="_blank">GET THE GUIDE FOR ₦7,700</a>
         <button type="button" class="btn btn--ghost-light btn--sm" data-close-proof>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SST PRODUCT DETAIL PANEL ============ -->
+  <div class="sst-modal" id="sstModal" data-open="false" role="dialog" aria-modal="true" aria-labelledby="sstTitle">
+    <div class="sst-modal__backdrop" data-close-sst></div>
+    <div class="sst-modal__dialog" role="document">
+      <div class="sst-modal__head">
+        <span class="sst-modal__eyebrow">NOW AVAILABLE FOR PRE-ORDER</span>
+        <button class="sst-modal__close" data-close-sst aria-label="Close Secondary School Teachers Edition panel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="sst-modal__body">
+        <div class="sst-modal__intro">
+          <h2 class="sst-modal__title" id="sstTitle">LEARN TO WORK SMARTER WITH AI</h2>
+          <div class="sst-modal__edition">Secondary School Teachers Edition</div>
+          <p class="sst-modal__headline">TURN REPEATED TEACHING WORK INTO A SYSTEM YOU CAN REUSE.</p>
+          <div class="sst-modal__opening">
+            <p>A new teaching week can bring another round of checking the scheme of work, preparing lesson notes, developing activities, setting questions, preparing marking guides, marking scripts, giving feedback and deciding what needs to be retaught.</p>
+            <p>Then examination periods add mock preparation, WAEC and NECO revision, learner weaknesses and CBT readiness.</p>
+            <p>The Secondary School Teachers Edition is built around that real work.</p>
+            <p>It shows Nigerian secondary school teachers how to use ChatGPT and Claude around the teaching responsibilities they already understand, while keeping curriculum control, accuracy, fairness and final professional judgement with the teacher.</p>
+          </div>
+        </div>
+
+        <div class="sst-modal__section">
+          <h3 class="sst-modal__h">WHAT CAN THIS EDITION HELP YOU DO?</h3>
+          <ol class="sst-value">
+            <li><b>1. MOVE FROM CURRICULUM TO CLASSROOM MORE SYSTEMATICALLY</b><span>Work from curriculum, scheme of work and school-calendar information towards realistic term planning, weekly teaching units and lesson preparation instead of treating each stage as a disconnected task.</span></li>
+            <li><b>2. PREPARE CONNECTED TEACHING MATERIALS</b><span>Develop lesson notes, explanations, activities, classwork and assignments from an approved weekly unit, then review and adapt the material before classroom use.</span></li>
+            <li><b>3. CONNECT ASSESSMENT, MARKING AND FEEDBACK</b><span>Move from what was actually taught to assessment questions and matching marking schemes, then organise feedback, identify repeated learner errors and use the evidence to guide remediation.</span></li>
+            <li><b>4. PREPARE WAEC AND NECO REVISION WITH GREATER PURPOSE</b><span>Use verified curriculum and examination information, taught coverage, mock planning, marking evidence and learner weaknesses to support more focused mock examinations and targeted revision rather than generating random questions.</span></li>
+            <li><b>5. WORK WITH REAL NIGERIAN SCHOOL CONDITIONS</b><span>The edition uses a phone-first approach, with laptop workflows where they genuinely help, while recognising realities such as connectivity, electricity, CBT device limitations and routine dependence on cyber cafés for document work.</span></li>
+            <li><b>6. BUILD A REUSABLE PERSONAL SUBJECT TEACHER AI SYSTEM</b><span>Organise useful subject files, proven prompts, working methods, schedules and reusable workflows so that successful work can be adapted for another week, term or session instead of continually being reconstructed.</span></li>
+          </ol>
+        </div>
+
+        <div class="sst-modal__section">
+          <h3 class="sst-modal__h">THE PRODUCT STRUCTURE</h3>
+          <div class="sst-structure">
+            <div class="sst-structure__item"><b>6 PRACTICAL PARTS</b><span>A connected journey from AI readiness and subject-workspace organisation through curriculum planning, lessons, assessment, marking, WAEC/NECO preparation, CBT readiness, responsible AI use and reusable teacher systems.</span></div>
+            <div class="sst-structure__item"><b>13 PRACTICAL CHAPTERS</b><span>Built around recurring secondary-school teaching responsibilities rather than general AI theory.</span></div>
+            <div class="sst-structure__item"><b>CHATGPT + CLAUDE</b><span>Practical guidance across both tools, with methods designed to remain useful beyond one AI platform.</span></div>
+            <div class="sst-structure__item"><b>PHONE-FIRST WORKFLOWS</b><span>Teachers can begin with the device many already use every day, with laptop support where a larger screen or deeper file work is genuinely useful.</span></div>
+            <div class="sst-structure__item"><b>PROMPT-TEMPLATES BESIDE REAL TASKS</b><span>Prompt-Templates appear beside the work they support, helping teachers replace the required details, provide the right material, inspect the result and reuse successful workflows rather than inventing every AI instruction from scratch.</span></div>
+            <div class="sst-structure__item"><b>SECONDARY SCHOOL TEACHERS AI TOOLKIT</b><span>A dedicated practical end-of-book resource designed around recurring teacher demands.</span></div>
+          </div>
+        </div>
+
+        <div class="sst-modal__beginner">
+          <h3 class="sst-modal__h">YOU DO NOT NEED TO BE AN AI EXPERT.</h3>
+          <p>You already understand your subject and your responsibility as a teacher. The guide starts from there.</p>
+          <p>It takes the teacher through a practical progression:</p>
+          <div class="sst-progression">
+            <span>UNDERSTAND</span><i aria-hidden="true">→</i>
+            <span>SET UP</span><i aria-hidden="true">→</i>
+            <span>TRY A REAL TEACHING TASK</span><i aria-hidden="true">→</i>
+            <span>GIVE CLEARER INSTRUCTIONS</span><i aria-hidden="true">→</i>
+            <span>CHECK THE RESULT</span><i aria-hidden="true">→</i>
+            <span>APPLY IT</span><i aria-hidden="true">→</i>
+            <span>SAVE WHAT WORKS</span><i aria-hidden="true">→</i>
+            <span>REUSE IT</span>
+          </div>
+          <p class="sst-modal__note">No programming knowledge is required.</p>
+        </div>
+
+        <div class="sst-modal__control">
+          <div class="sst-modal__control-head">AI ASSISTS. THE TEACHER DECIDES.</div>
+          <p>The system supports preparation, organisation and reusable working processes. Curriculum accuracy, fairness, final marks and professional teaching decisions remain with the teacher.</p>
+        </div>
+
+        <div class="sst-modal__offer">
+          <h3 class="sst-modal__h">PRE-ORDER OFFER</h3>
+          <div class="sst-offer-grid">
+            <div class="sst-offer-grid__cell"><small>REFERENCE PRICE</small><b>₦14,500</b></div>
+            <div class="sst-offer-grid__cell"><small>CURRENT PRE-ORDER PRICE</small><b class="sst-offer-grid__now">₦6,700</b></div>
+            <div class="sst-offer-grid__cell"><small>YOU SAVE</small><b>₦7,800</b></div>
+            <div class="sst-offer-grid__cell"><small>DISCOUNT</small><b class="sst-offer-grid__off">54% OFF</b></div>
+            <div class="sst-offer-grid__cell sst-offer-grid__cell--wide"><small>LAUNCHING</small><b>10 SEPTEMBER 2026</b><span>12:00 A.M. WAT</span></div>
+          </div>
+          <p class="sst-modal__offer-statement">The ₦6,700 price is the current pre-order offer. The current 54% pre-order discount applies before launch and will change after the Secondary School Teachers Edition launches.</p>
+          <div class="sst-modal__cta-row">
+            <a href="https://selar.com/3p386xc01x" class="btn btn--primary btn--lg" rel="noopener" target="_blank">PRE-ORDER ON SELAR</a>
+            <div class="sst-modal__reassure">
+              <span class="sst-modal__reassure-title">NO CARD? NO PROBLEM.</span>
+              <span class="sst-modal__reassure-body">Pay in Naira through Bank Transfer, USSD or Card at Selar checkout.</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
