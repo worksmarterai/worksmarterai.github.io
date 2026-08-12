@@ -4,6 +4,23 @@ All notable changes to the *Learn to Work Smarter With AI — University Lecture
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.0] — 2026-08-12 — Targeted Refinement & Functional Upgrade
+
+### Changed
+- **Warm cream surface treatment:** replaced plain-white page/section backgrounds with a warm milky-cream tonal family (`#F3EBD8` section / `#FBF6EA` cards / `#EDE3CC` warm-tint) so the sales page and the University Lecturer Edition publication share one visual system. Dark navy sections, teal, gold and existing hierarchy preserved. Contrast remains WCAG-AA.
+- **Header author photograph:** the "WS" letter placeholder is now the supplied `vincent_chimaobi.png` photograph, cropped into the existing 34x34 rounded brand-mark (header height, nav, CTA, sticky and responsive behaviour unchanged).
+- **Author-section photograph:** the circular "VCO" placeholder is now the same `vincent_chimaobi.png` photograph, cropped into the existing 84x84 circular avatar (card layout, text, button, responsive arrangement unchanged).
+
+### Rebuilt
+- **Sales Assistant conversation flow:** quick-replies now live *inside* the conversation thread instead of a permanent block. Initial state = welcome + 4 inline quick-replies. Selecting one collapses the current set, inserts the question as a user message, shows the approved bot response, then surfaces a new contextual set of follow-up questions. The thread preserves full history, auto-scrolls to the newest message, and does not jump scroll when the visitor is reading earlier messages. Free-text input, WhatsApp escalation, payment restrictions, keyboard operation and focus states all preserved.
+
+### Added
+- **Interactive proof explanations:** the four toolkit proof cards (63 prompts / 12 categories / 90+ templates / 2 tools) are now accessible buttons that open a polished detail modal explaining practical value (feature -> what it means -> what the lecturer can do -> why it saves effort -> practical result). Modal is keyboard-operable, Escape-to-close, focus-trapped, and returns focus to the originating card.
+- **`assets/vincent_chimaobi.png`:** supplied author photograph, used in both header and author section.
+
+### Mobile
+- Assistant panel and launcher repositioned on <=480px so the panel fits inside the viewport, the composer and close/minimise controls remain reachable, the payment warning stays visible, and the launcher no longer touches the sticky purchase bar (8px gap).
+
 ## [1.0.0] — 2026-08-11 — Public Launch
 
 ### Added

@@ -1,9 +1,9 @@
 /* ==========================================================================
    LEARN TO WORK SMARTER WITH AI — University Lecturer Edition
    app.js — lightweight client behaviour (no dependencies, static-site safe)
-   - AI Sales Assistant: predefined local answers only (no external AI)
-   - Sticky header state, mobile nav, mobile purchase bar, FAQ accordion
-   - Reveal-on-scroll, frame backlight tracking, reduced-motion aware
+   - AI Sales Assistant: branching conversation with INLINE quick-replies
+   - Proof detail modal: accessible explanations for 63 / 12 / 90+ / 2
+   - Sticky header, mobile nav, mobile purchase bar, FAQ accordion, reveals
    ========================================================================== */
 (function () {
   'use strict';
@@ -11,7 +11,6 @@
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var ss = window.sessionStorage;
 
-  /* ---------- helpers ---------- */
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $all(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
   function on(el, ev, fn, opts) { if (el) el.addEventListener(ev, fn, opts || false); }
@@ -63,7 +62,6 @@
       var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
       if (mobileNav.getAttribute('data-open') === 'true') closeMobileNav();
       window.scrollTo({ top: top, behavior: reducedMotion ? 'auto' : 'smooth' });
-      // move focus for accessibility
       target.setAttribute('tabindex', '-1');
       target.focus({ preventScroll: true });
     });
@@ -94,7 +92,6 @@
     if (!btn || !ans) return;
     on(btn, 'click', function () {
       var open = item.getAttribute('data-open') === 'true';
-      // close others (one open at a time for clarity)
       faqItems.forEach(function (other) {
         if (other !== item) {
           other.setAttribute('data-open', 'false');
@@ -144,14 +141,140 @@
   }
 
   /* ========================================================================
-     AI SALES ASSISTANT — controlled predefined answers (no external AI)
+     PROOF DETAIL MODAL — accessible interactive explanations (63/12/90+/2)
      ======================================================================== */
-  var ASSISTANT = {
-    kb: null,
-    kbLoading: false,
-    kbLoaded: false,
-    lastFocused: null
+  var PROOF_CONTENT = {
+    '63': {
+      num: '63', title: 'Definitive Toolkit Prompts',
+      sub: 'What this actually means for your work',
+      html:
+        '<div class="proof-modal__block"><div class="proof-modal__label">What it means</div>' +
+        '<p>63 purpose-built prompts organised around the recurring tasks a lecturer already performs. When a specific job appears, you don&rsquo;t have to figure out what to type into ChatGPT or Claude from scratch &mdash; the Toolkit gives you a ready starting point for that task.</p></div>' +
+        '<div class="proof-modal__block"><div class="proof-modal__label">What you can do with it</div>' +
+        '<p>Open the Toolkit for recurring jobs such as:</p><ul>' +
+        '<li>Preparing a marking guide</li><li>Improving a weak academic paragraph</li>' +
+        '<li>Reviewing a project or thesis draft</li><li>Organising research papers</li>' +
+        '<li>Checking whether evidence actually supports a claim</li>' +
+        '<li>Verifying a suspicious reference</li><li>Organising a document</li>' +
+        '<li>Preparing feedback</li><li>Structuring recurring academic work</li></ul></div>' +
+        '<div class="proof-modal__block"><div class="proof-modal__label">Why the structure saves repeated effort</div>' +
+        '<div class="proof-modal__flow"><span>FIND THE RELEVANT TASK</span><em>&rarr;</em><span>REPLACE THE REQUIRED DETAILS</span><em>&rarr;</em><span>SUBMIT</span><em>&rarr;</em><span>REVIEW</span><em>&rarr;</em><span>APPROVE</span><em>&rarr;</em><span>REUSE</span></div>' +
+        '<p style="margin-top:.6rem">The same prompt is there next semester. You replace the details, not the thinking.</p></div>' +
+        '<div class="proof-modal__result"><b>Practical result:</b> reduced repeated prompt-writing, a faster starting point, clearer instructions to AI, more reusable academic workflows, and lecturer control over the final result. AI does not make academic decisions automatically.</div>'
+    },
+    '12': {
+      num: '12', title: 'Demand-Based Categories',
+      sub: 'Why organising the Toolkit this way matters',
+      html:
+        '<div class="proof-modal__block"><div class="proof-modal__label">What it means</div>' +
+        '<p>The 12 categories function like a practical problem-finding system. Instead of scrolling through dozens of unrelated prompts, you go directly to the type of work currently in front of you.</p></div>' +
+        '<div class="proof-modal__block"><div class="proof-modal__label">The 12 categories</div><ul>' +
+        '<li>AI Responses and Corrections</li><li>Documents, Tables, Designs and Printing</li>' +
+        '<li>Lecture Materials and Classroom Support</li><li>Assessment, Marking and Feedback</li>' +
+        '<li>Projects, Theses and Correction Tracking</li>' +
+        '<li>Research-Paper Discovery, Reading and Organisation</li>' +
+        '<li>Research Methods and Data Interpretation</li>' +
+        '<li>References, Claims and Evidence</li>' +
+        '<li>Academic Writing and Journal Preparation</li>' +
+        '<li>Similarity, Plagiarism and Possible AI-Writing Review</li>' +
+        '<li>Course Files and NUC-Related Evidence</li>' +
+        '<li>Semester Workflows and the Reusable Lecturer AI System</li></ul></div>' +
+        '<div class="proof-modal__block"><div class="proof-modal__label">How it saves effort</div>' +
+        '<p>You think about the job you need to complete, find the corresponding category, then move towards the relevant working tool. Less searching, faster access, a clearer mental map of where each recurring task lives.</p></div>' +
+        '<div class="proof-modal__result"><b>Practical result:</b> less time searching through unrelated prompts, faster access to the right tool, and a natural structure that mirrors how academic work actually arrives.</div>'
+    },
+    '90': {
+      num: '90+', title: 'Chapter Prompt-Templates',
+      sub: 'Different from the 63 Toolkit prompts',
+      html:
+        '<div class="proof-modal__block"><div class="proof-modal__label">What makes them different</div>' +
+        '<p>The 90+ guided Prompt-Templates are placed <strong>inside the chapters</strong>, beside the methods, demonstrations, examples and verification steps they support. You are not simply handed a prompt &mdash; the surrounding chapter teaches the workflow around it.</p></div>' +
+        '<div class="proof-modal__block"><div class="proof-modal__label">What the chapter teaches around each template</div><ul>' +
+        '<li>What the task is</li><li>What information or source should be supplied</li>' +
+        '<li>What must be replaced in the Prompt-Template</li>' +
+        '<li>What type of output to request</li><li>What AI must not invent</li>' +
+        '<li>What the lecturer must inspect</li><li>What needs verification</li>' +
+        '<li>How a useful workflow can be saved and reused</li></ul></div>' +
+        '<div class="proof-modal__block"><div class="proof-modal__label">Why that matters</div>' +
+        '<p>You learn the method while using the tool. The 63 Toolkit prompts are refined standalone working tools; the 90+ chapter templates teach why the prompt works, so you build judgement rather than just a prompt library.</p></div>' +
+        '<div class="proof-modal__result"><b>Practical result:</b> less guessing, stronger reusable workflows, and the understanding to adapt a prompt when the task changes shape.</div>'
+    },
+    '2': {
+      num: '2', title: 'Tools Covered: ChatGPT & Claude',
+      sub: 'Practical value of covering both',
+      html:
+        '<div class="proof-modal__block"><div class="proof-modal__label">What it means</div>' +
+        '<p>The guide teaches practical workflows using both ChatGPT and Claude where relevant, without forcing permanent dependence on one AI platform. The prompting principles are transferable.</p></div>' +
+        '<div class="proof-modal__block"><div class="proof-modal__label">What you can do with it</div><ul>' +
+        '<li>Understand transferable prompting principles that work across assistants</li>' +
+        '<li>Work across more than one major AI assistant</li>' +
+        '<li>Compare outputs where useful</li>' +
+        '<li>Continue the academic workflow without treating one provider as permanently superior</li></ul></div>' +
+        '<div class="proof-modal__block"><div class="proof-modal__label">Why that saves effort</div>' +
+        '<p>Transferable principles mean you are not locked in. You can choose the right tool for each task, and your workflows survive even if your preferred platform changes.</p></div>' +
+        '<div class="proof-modal__result"><b>Practical result:</b> flexibility and continuity &mdash; your reusable workflows are not tied to a single provider.</div>'
+    }
   };
+
+  var proofModal = $('#proofModal');
+  var proofNum = $('#proofNum');
+  var proofTitle = $('#proofTitle');
+  var proofSub = $('#proofSub');
+  var proofBody = $('#proofBody');
+  var proofLastFocus = null;
+
+  function openProof(key, trigger) {
+    var data = PROOF_CONTENT[key];
+    if (!data || !proofModal) return;
+    proofLastFocus = trigger || document.activeElement;
+    proofNum.textContent = data.num;
+    proofTitle.textContent = data.title;
+    proofSub.textContent = data.sub;
+    proofBody.innerHTML = data.html;
+    proofModal.setAttribute('data-open', 'true');
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    // focus the close button after open
+    setTimeout(function () { var c = $('#proofClose'); if (c) c.focus(); }, 60);
+  }
+  function closeProof() {
+    if (!proofModal) return;
+    proofModal.setAttribute('data-open', 'false');
+    document.body.style.overflow = '';
+    // update all proof buttons aria-expanded
+    $all('.toolkit-stat--btn').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
+    // return focus to the originating button
+    if (proofLastFocus && proofLastFocus.focus) {
+      proofLastFocus.focus();
+    }
+  }
+  $all('.toolkit-stat--btn').forEach(function (btn) {
+    on(btn, 'click', function () {
+      var key = btn.getAttribute('data-proof');
+      openProof(key, btn);
+    });
+  });
+  $all('[data-close-proof]').forEach(function (el) { on(el, 'click', closeProof); });
+  on(document, 'keydown', function (e) {
+    if (e.key === 'Escape' && proofModal.getAttribute('data-open') === 'true') {
+      closeProof();
+    }
+  });
+  // simple focus trap inside modal
+  on(proofModal, 'keydown', function (e) {
+    if (e.key !== 'Tab' || proofModal.getAttribute('data-open') !== 'true') return;
+    var focusables = $all('a[href], button:not([disabled]), input:not([disabled])', proofModal)
+      .filter(function (el) { return el.offsetParent !== null; });
+    if (!focusables.length) return;
+    var first = focusables[0], last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  /* ========================================================================
+     AI SALES ASSISTANT — branching conversation with inline quick-replies
+     ======================================================================== */
+  var ASSISTANT = { kb: null, kbLoading: false, kbLoaded: false, lastFocused: null, userScrolledUp: false };
 
   var assistantBtn = $('#assistantBtn');
   var assistantPanel = $('#assistantPanel');
@@ -161,10 +284,8 @@
   var assistantInvite = $('#assistantInvite');
   var inviteText = $('#inviteText');
   var inviteClose = $('#inviteClose');
-  var starterChips = $('#starterChips');
   var askAssistantBtn = $('#askAssistantBtn');
 
-  // Approved invitation messages (DOCX Section 1K)
   var INVITE_MESSAGES = [
     'I CAN ANSWER YOUR QUESTIONS.',
     'NEED HELP CHOOSING? ASK ME.',
@@ -172,32 +293,40 @@
     'READY TO LEARN MORE? I CAN HELP.'
   ];
 
-  // Approved starter questions (DOCX Section 1K)
-  var STARTERS = [
-    'WHAT IS INSIDE THE GUIDE?',
-    'IS THIS SUITABLE FOR A BEGINNER?',
-    'HOW CAN THIS HELP ME SAVE REPEATED EFFORT?',
-    'WHAT ARE THE 90+ PROMPT-TEMPLATES?',
-    'WHAT IS LECTURERS\'S AI TOOLKITS?',
-    'HOW DO I GET THE FREE LECTURERS\' AI TOOLKIT?',
-    'HOW DO I BUY THE GUIDE?',
-    'HOW WILL I RECEIVE THE GUIDE AFTER PAYMENT?',
-    'HOW DOES THE REFERRAL PROGRAMME WORK?',
-    'I NEED HELP BUILDING MY PERSONAL LECTURER AI SYSTEM.'
-  ];
-
-  // Visual starter subset shown as chips (first 4)
-  var CHIPS = STARTERS.slice(0, 4);
-
-  // Escalation / fallback constants
   var WHATSAPP_SUPPORT = 'https://wa.me/message/BS2I4XH5NM3CH1';
   var WHATSAPP_CHANNEL = 'https://whatsapp.com/channel/0029VbDoGeyF1YlYCD3PCh3W';
   var SELAR_URL = 'https://selar.com/k7j717m263';
   var FALLBACK = 'I do not have an approved answer for that question. Would you like to continue this conversation with the Afrik Vine support team on WhatsApp?';
 
+  // Branching follow-up graph — each intent id maps to a small set of follow-ups
+  var FOLLOWUPS = {
+    _initial: [
+      'WHAT IS INSIDE THE GUIDE?',
+      'IS THIS SUITABLE FOR A BEGINNER?',
+      'HOW CAN THIS HELP ME SAVE REPEATED EFFORT?',
+      'WHAT IS LECTURERS\'S AI TOOLKITS?'
+    ],
+    inside_guide: ['WHAT ARE THE 90+ PROMPT-TEMPLATES?', 'WHAT IS LECTURERS\'S AI TOOLKITS?', 'HOW DO I BUY THE GUIDE?'],
+    beginner: ['WHAT IS INSIDE THE GUIDE?', 'HOW DO I BUY THE GUIDE?', 'HOW WILL I RECEIVE THE GUIDE AFTER PAYMENT?'],
+    save_time: ['WHAT ARE THE 90+ PROMPT-TEMPLATES?', 'WHAT IS LECTURERS\'S AI TOOLKITS?', 'HOW DOES THE REFERRAL PROGRAMME WORK?'],
+    prompt_templates: ['WHAT IS LECTURERS\'S AI TOOLKITS?', 'WHAT IS INSIDE THE GUIDE?', 'HOW DO I GET THE FREE LECTURERS\' AI TOOLKIT?'],
+    toolkit: ['WHAT DO THE 63 PROMPTS HELP ME DO?', 'WHAT ARE THE 12 CATEGORIES?', 'HOW IS THIS DIFFERENT FROM THE 90+ PROMPT-TEMPLATES?'],
+    free_toolkit: ['HOW DO I BUY THE GUIDE?', 'WHAT IS LECTURERS\'S AI TOOLKITS?', 'HOW DOES THE REFERRAL PROGRAMME WORK?'],
+    price: ['HOW DO I BUY THE GUIDE?', 'HOW WILL I RECEIVE THE GUIDE AFTER PAYMENT?', 'HOW DOES THE REFERRAL PROGRAMME WORK?'],
+    buy: ['HOW WILL I RECEIVE THE GUIDE AFTER PAYMENT?', 'WHAT IS INSIDE THE GUIDE?', 'I NEED HELP BUILDING MY PERSONAL LECTURER AI SYSTEM.'],
+    delivery: ['HOW DO I BUY THE GUIDE?', 'WHAT IS INSIDE THE GUIDE?', 'HOW DOES THE REFERRAL PROGRAMME WORK?'],
+    navigation: ['WHAT IS INSIDE THE GUIDE?', 'WHAT ARE THE 90+ PROMPT-TEMPLATES?', 'HOW DO I BUY THE GUIDE?'],
+    chatgpt_claude: ['WHAT IS INSIDE THE GUIDE?', 'WHAT IS LECTURERS\'S AI TOOLKITS?', 'IS THIS SUITABLE FOR A BEGINNER?'],
+    referral: ['HOW DO I BUY THE GUIDE?', 'HOW DO I GET THE FREE LECTURERS\' AI TOOLKIT?', 'I NEED HELP BUILDING MY PERSONAL LECTURER AI SYSTEM.'],
+    human_control: ['WHAT IS INSIDE THE GUIDE?', 'WHAT IS LECTURERS\'S AI TOOLKITS?', 'HOW DO I BUY THE GUIDE?'],
+    upcoming: ['WHAT IS INSIDE THE GUIDE?', 'HOW DO I BUY THE GUIDE?', 'HOW DO I GET THE FREE LECTURERS\' AI TOOLKIT?'],
+    _fallback: ['WHAT IS INSIDE THE GUIDE?', 'HOW DO I BUY THE GUIDE?', 'HOW DO I GET THE FREE LECTURERS\' AI TOOLKIT?'],
+    _escalation: ['WHAT IS INSIDE THE GUIDE?', 'HOW DO I BUY THE GUIDE?', 'HOW DO I GET THE FREE LECTURERS\' AI TOOLKIT?']
+  };
+
   function loadKB(cb) {
     if (ASSISTANT.kbLoaded) { cb(ASSISTANT.kb); return; }
-    if (ASSISTANT.kbLoading) { return; }
+    if (ASSISTANT.kbLoading) return;
     ASSISTANT.kbLoading = true;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', './data/knowledge-base.json', true);
@@ -205,16 +334,9 @@
       if (xhr.readyState !== 4) return;
       ASSISTANT.kbLoading = false;
       if (xhr.status === 200) {
-        try {
-          ASSISTANT.kb = JSON.parse(xhr.responseText);
-          ASSISTANT.kbLoaded = true;
-          cb(ASSISTANT.kb);
-        } catch (e) {
-          cb(null);
-        }
-      } else {
-        cb(null);
-      }
+        try { ASSISTANT.kb = JSON.parse(xhr.responseText); ASSISTANT.kbLoaded = true; cb(ASSISTANT.kb); }
+        catch (e) { cb(null); }
+      } else { cb(null); }
     };
     xhr.send();
   }
@@ -224,134 +346,158 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
+  function norm(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim(); }
 
-  // Normalise text for matching
-  function norm(s) {
-    return String(s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
-  }
-
-  // Match user input against approved intents (keyword / pattern scoring)
+  // Match a free-text or starter question against approved intents
   function matchIntent(text) {
     if (!ASSISTANT.kb) return null;
     var q = norm(text);
     if (!q) return null;
+    // Special-case escalation topics that aren't clean intent matches
+    var ql = q;
+    if (ql.indexOf('personal lecturer') >= 0 || ql.indexOf('build') >= 0 || ql.indexOf('implement') >= 0 || ql.indexOf('set up') >= 0 || ql.indexOf('setup') >= 0 || ql.indexOf('custom') >= 0 || ql.indexOf('institution') >= 0 || ql.indexOf('training') >= 0) {
+      return { _escalation: true };
+    }
     var intents = ASSISTANT.kb.approved_intents || [];
-    var best = null;
-    var bestScore = 0;
+    var best = null, bestScore = 0;
     intents.forEach(function (intent) {
       var score = 0;
       (intent.patterns || []).forEach(function (pat) {
         var p = norm(pat);
         if (!p) return;
         if (q.indexOf(p) >= 0) { score += 5; return; }
-        // word-level overlap
-        var pw = p.split(' ');
-        var hit = 0;
+        var pw = p.split(' '), hit = 0;
         pw.forEach(function (w) { if (w.length > 2 && q.indexOf(w) >= 0) hit++; });
         if (hit > 0) score += (hit / pw.length) * 3;
       });
       if (score > bestScore) { bestScore = score; best = intent; }
     });
-    // Require a minimum confidence
-    if (bestScore >= 3) return best;
-    return null;
+    return bestScore >= 3 ? best : null;
   }
 
-  function ctaHtml(cta, kind) {
-    if (!cta) return '';
-    var cls = 'btn-wa';
-    var label = 'Continue on WhatsApp';
-    if (kind === 'buy') { cls = 'btn-buy'; label = 'GET THE GUIDE FOR ₦7,700'; }
-    if (kind === 'channel') { cls = 'btn-channel'; label = 'Join Official WhatsApp Channel'; }
-    return '<a class="' + cls + '" href="' + escapeHtml(cta) + '" target="_blank" rel="noopener">' + label + '</a>';
-  }
-
-  function addMessage(text, who, ctaBlocks) {
-    var div = document.createElement('div');
-    div.className = 'msg msg--' + (who === 'user' ? 'user' : 'bot');
-    var html = escapeHtml(text);
-    if (ctaBlocks && ctaBlocks.length) {
-      html += '<div class="msg__cta">' + ctaBlocks.join('') + '</div>';
-    }
-    div.innerHTML = html;
-    assistantBody.appendChild(div);
-    assistantBody.scrollTop = assistantBody.scrollHeight;
-    return div;
-  }
-
-  function respond(text) {
+  // Resolve a starter/follow-up question text to an intent + response
+  function resolveQuestion(text) {
     var matched = matchIntent(text);
-    if (matched) {
-      var blocks = [];
-      if (matched.id === 'buy') {
-        blocks.push(ctaHtml(SELAR_URL, 'buy'));
-      } else if (matched.id === 'free_toolkit') {
-        blocks.push(ctaHtml(WHATSAPP_CHANNEL, 'channel'));
-      } else if (matched.id === 'referral') {
-        blocks.push(ctaHtml(WHATSAPP_SUPPORT, 'wa'));
-      } else if (matched.cta) {
-        // generic cta from KB
-        blocks.push(ctaHtml(matched.cta, matched.cta === WHATSAPP_CHANNEL ? 'channel' : (matched.cta === WHATSAPP_SUPPORT ? 'wa' : 'wa')));
+    var result;
+    if (matched && matched._escalation) {
+      result = {
+        answer: 'I can connect you with the support team on WhatsApp for help with your Personal Lecturer AI System, custom workflow setup, or institutional and group training enquiries. They handle those personally.',
+        cta: 'wa',
+        followKey: '_escalation'
+      };
+    } else if (matched) {
+      var cta = null, followKey = matched.id;
+      if (matched.id === 'buy') cta = 'buy';
+      else if (matched.id === 'free_toolkit') cta = 'channel';
+      else if (matched.id === 'referral') cta = 'wa';
+      else if (matched.cta) {
+        cta = (matched.cta === WHATSAPP_CHANNEL) ? 'channel' : (matched.cta === WHATSAPP_SUPPORT ? 'wa' : 'wa');
       }
-      addMessage(matched.answer, 'bot', blocks);
+      result = { answer: matched.answer, cta: cta, followKey: followKey };
     } else {
-      // Fallback + WhatsApp escalation
-      var fb = '<div class="msg__cta">' +
-        ctaHtml(WHATSAPP_SUPPORT, 'wa') +
-        '</div>';
-      var div = document.createElement('div');
-      div.className = 'msg msg--bot';
-      div.innerHTML = escapeHtml(FALLBACK) + fb;
-      assistantBody.appendChild(div);
+      result = { answer: FALLBACK, cta: 'wa', followKey: '_fallback' };
+    }
+    return result;
+  }
+
+  function ctaHtml(kind) {
+    if (kind === 'buy') return '<a class="btn-buy" href="' + SELAR_URL + '" target="_blank" rel="noopener">GET THE GUIDE FOR ₦7,700</a>';
+    if (kind === 'channel') return '<a class="btn-channel" href="' + WHATSAPP_CHANNEL + '" target="_blank" rel="noopener">Join Official WhatsApp Channel</a>';
+    if (kind === 'wa') return '<a class="btn-wa" href="' + WHATSAPP_SUPPORT + '" target="_blank" rel="noopener">Continue on WhatsApp</a>';
+    return '';
+  }
+
+  function isNearBottom() {
+    if (!assistantBody) return true;
+    return (assistantBody.scrollHeight - assistantBody.scrollTop - assistantBody.clientHeight) < 90;
+  }
+  function scrollToBottom(force) {
+    if (!assistantBody) return;
+    if (force || !ASSISTANT.userScrolledUp) {
       assistantBody.scrollTop = assistantBody.scrollHeight;
     }
   }
 
-  function greet() {
-    if (assistantBody.children.length > 0) return;
-    addMessage('Hello. I am the LECTURER GUIDE AI SALES ASSISTANT — an automated product, purchase and support assistant. I can answer questions about the University Lecturer Edition, the free WhatsApp Channel Toolkit, price, delivery and referral. How can I help?', 'bot');
+  // Append a user message bubble
+  function addUserMessage(text) {
+    var div = document.createElement('div');
+    div.className = 'msg msg--user';
+    div.textContent = text;
+    assistantBody.appendChild(div);
   }
 
-  function renderChips() {
-    starterChips.innerHTML = '';
-    CHIPS.forEach(function (label) {
+  // Append a bot message bubble (with optional CTA) and return the bubble element
+  function addBotMessage(text, ctaKind) {
+    var div = document.createElement('div');
+    div.className = 'msg msg--bot';
+    var html = escapeHtml(text);
+    if (ctaKind) html += '<div class="msg__cta">' + ctaHtml(ctaKind) + '</div>';
+    div.innerHTML = html;
+    assistantBody.appendChild(div);
+    return div;
+  }
+
+  // Append inline quick-reply chips under a given reference element (or at end)
+  function addQuickReplies(questions, refEl) {
+    if (!questions || !questions.length) return null;
+    var wrap = document.createElement('div');
+    wrap.className = 'quick-replies';
+    questions.forEach(function (q) {
       var b = document.createElement('button');
       b.type = 'button';
-      b.textContent = label;
-      on(b, 'click', function () {
-        handleUser(label);
-      });
-      starterChips.appendChild(b);
+      b.textContent = q;
+      on(b, 'click', function () { handleQuestion(q, b); });
+      wrap.appendChild(b);
     });
+    if (refEl && refEl.parentNode) {
+      refEl.parentNode.insertBefore(wrap, refEl.nextSibling);
+    } else {
+      assistantBody.appendChild(wrap);
+    }
+    return wrap;
   }
 
-  function handleUser(text) {
+  // Remove any existing quick-reply blocks (collapse current set before adding new)
+  function clearQuickReplies() {
+    $all('.quick-replies', assistantBody).forEach(function (el) { el.remove(); });
+  }
+
+  // Track whether the user has scrolled up manually
+  on(assistantBody, 'scroll', function () {
+    ASSISTANT.userScrolledUp = !isNearBottom();
+  }, { passive: true });
+
+  function handleQuestion(text, originBtn) {
     var t = (text || '').trim();
     if (!t) return;
-    addMessage(t, 'user');
-    assistantInput.value = '';
-    // mark interaction so invitation stops
+    // collapse current quick replies
+    clearQuickReplies();
+    // add user message
+    addUserMessage(t);
+    ASSISTANT.userScrolledUp = false; // a new interaction — resume auto-scroll
+    scrollToBottom(true);
     markInteracted();
-    // small delay for natural feel without fake typing
-    if (reducedMotion) {
-      ensureKBThenRespond(t);
-    } else {
-      setTimeout(function () { ensureKBThenRespond(t); }, 180);
-    }
+    // resolve + respond
+    var respond = function () {
+      var res = resolveQuestion(t);
+      var bubble = addBotMessage(res.answer, res.cta);
+      var followups = FOLLOWUPS[res.followKey] || FOLLOWUPS._fallback;
+      addQuickReplies(followups, bubble);
+      scrollToBottom(true);
+    };
+    if (reducedMotion) respond();
+    else setTimeout(respond, 160);
   }
 
-  function ensureKBThenRespond(text) {
-    loadKB(function (kb) {
-      if (!kb) {
-        // graceful failure: still offer WhatsApp, never break purchase route
-        addMessage('I am having trouble loading my knowledge base right now. You can still buy the guide through Selar, or continue with a human on WhatsApp.', 'bot', [
-          ctaHtml(SELAR_URL, 'buy'),
-          ctaHtml(WHATSAPP_SUPPORT, 'wa')
-        ]);
-        return;
-      }
-      respond(text);
-    });
+  function handleFreeText(text) {
+    handleQuestion(text, null);
+  }
+
+  function greet() {
+    if (assistantBody.children.length > 0) return;
+    var bubble = addBotMessage('Hello. I\u2019m the LECTURER GUIDE AI SALES ASSISTANT \u2014 an automated product, purchase and support assistant. Ask me about the guide, the free WhatsApp Channel Toolkit, price, delivery or referral. How can I help?', null);
+    addQuickReplies(FOLLOWUPS._initial, bubble);
+    scrollToBottom(true);
   }
 
   function openAssistant() {
@@ -360,39 +506,30 @@
     assistantBtn.setAttribute('aria-expanded', 'true');
     assistantInvite.setAttribute('data-show', 'false');
     markInteracted();
-    renderChips();
     greet();
-    // focus the input
-    setTimeout(function () { if (assistantInput) assistantInput.focus(); }, 50);
+    setTimeout(function () { if (assistantInput) assistantInput.focus(); }, 60);
   }
-
   function closeAssistant() {
     assistantPanel.setAttribute('data-open', 'false');
     assistantBtn.setAttribute('aria-expanded', 'false');
-    if (ASSISTANT.lastFocused && ASSISTANT.lastFocused.focus) {
-      ASSISTANT.lastFocused.focus();
-    } else {
-      assistantBtn.focus();
-    }
+    if (ASSISTANT.lastFocused && ASSISTANT.lastFocused.focus) ASSISTANT.lastFocused.focus();
+    else assistantBtn.focus();
   }
 
   on(assistantBtn, 'click', function () {
-    if (assistantPanel.getAttribute('data-open') === 'true') {
-      closeAssistant();
-    } else {
-      openAssistant();
-    }
+    if (assistantPanel.getAttribute('data-open') === 'true') closeAssistant();
+    else openAssistant();
   });
   on($('#assistantClose'), 'click', closeAssistant);
   on($('#assistantMin'), 'click', closeAssistant);
   on(assistantForm, 'submit', function (e) {
     e.preventDefault();
-    handleUser(assistantInput.value);
+    var v = assistantInput.value;
+    if (v && v.trim()) { handleFreeText(v.trim()); assistantInput.value = ''; }
   });
   if (askAssistantBtn) {
     on(askAssistantBtn, 'click', function () {
       openAssistant();
-      // scroll to assistant area smoothly
       var rect = assistantPanel.getBoundingClientRect();
       if (rect.top < 0 || rect.bottom > window.innerHeight) {
         assistantBtn.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
@@ -400,46 +537,36 @@
     });
   }
   on(document, 'keydown', function (e) {
-    if (e.key === 'Escape' && assistantPanel.getAttribute('data-open') === 'true') {
-      closeAssistant();
-    }
+    if (e.key === 'Escape' && assistantPanel.getAttribute('data-open') === 'true') closeAssistant();
   });
 
-  /* ---------- controlled periodic invitation (DOCX Section 1K) ---------- */
+  // Preload KB quietly after first open so responses are instant
+  on(assistantBtn, 'click', function () { loadKB(function () {}); }, { once: true });
+
+  /* ---------- controlled periodic invitation ---------- */
   function markInteracted() {
     try { ss.setItem('wsa_assistant_interacted', '1'); } catch (e) {}
     stopInvitation();
   }
-  function wasInteracted() {
-    try { return ss.getItem('wsa_assistant_interacted') === '1'; } catch (e) { return false; }
-  }
-  function getInviteCount() {
-    try { return parseInt(ss.getItem('wsa_invite_count') || '0', 10); } catch (e) { return 0; }
-  }
-  function setInviteCount(n) {
-    try { ss.setItem('wsa_invite_count', String(n)); } catch (e) {}
-  }
+  function wasInteracted() { try { return ss.getItem('wsa_assistant_interacted') === '1'; } catch (e) { return false; } }
+  function getInviteCount() { try { return parseInt(ss.getItem('wsa_invite_count') || '0', 10); } catch (e) { return 0; } }
+  function setInviteCount(n) { try { ss.setItem('wsa_invite_count', String(n)); } catch (e) {} }
 
   var inviteTimer = null;
   function scheduleNextInvite() {
     if (wasInteracted()) return;
     if (getInviteCount() >= 3) return;
     if (assistantPanel.getAttribute('data-open') === 'true') return;
-    // random 20-25 seconds
     var delay = 20000 + Math.floor(Math.random() * 5000);
-    inviteTimer = window.setTimeout(function () {
-      showInvite();
-    }, delay);
+    inviteTimer = window.setTimeout(function () { showInvite(); }, delay);
   }
   function showInvite() {
-    if (wasInteracted()) return;
-    if (getInviteCount() >= 3) return;
+    if (wasInteracted() || getInviteCount() >= 3) return;
     if (assistantPanel.getAttribute('data-open') === 'true') return;
     var count = getInviteCount();
     setInviteCount(count + 1);
     inviteText.textContent = INVITE_MESSAGES[count % INVITE_MESSAGES.length];
     assistantInvite.setAttribute('data-show', 'true');
-    // auto-hide after 8s if not interacted
     window.setTimeout(function () {
       if (assistantInvite.getAttribute('data-show') === 'true' && !wasInteracted()) {
         assistantInvite.setAttribute('data-show', 'false');
@@ -451,28 +578,16 @@
     if (inviteTimer) { window.clearTimeout(inviteTimer); inviteTimer = null; }
     if (assistantInvite) assistantInvite.setAttribute('data-show', 'false');
   }
-  on(inviteClose, 'click', function () {
-    assistantInvite.setAttribute('data-show', 'false');
-    markInteracted();
-  });
-  on(assistantInvite, 'click', function (e) {
-    // clicking the bubble (not the close button) opens the assistant
-    if (e.target === inviteClose) return;
-    openAssistant();
-  });
+  on(inviteClose, 'click', function () { assistantInvite.setAttribute('data-show', 'false'); markInteracted(); });
+  on(assistantInvite, 'click', function (e) { if (e.target === inviteClose) return; openAssistant(); });
 
-  // Start invitation cycle only after the page is interactive, and respect reduced motion
   function startInvitationCycle() {
-    if (reducedMotion) return; // respect reduced motion — do not auto-invite
+    if (reducedMotion) return;
     if (wasInteracted()) return;
     scheduleNextInvite();
   }
   if (document.readyState === 'complete') startInvitationCycle();
   else on(window, 'load', startInvitationCycle);
 
-  // If the user scrolls significantly, consider them engaged — keep invitation timing as is
-  // (invitation already time-based per DOCX)
-
-  /* ---------- ensure visible FAQ stays usable if JS disabled: CSS keeps answers hidden by max-height:0; that's acceptable per DOCX "useful even if JS fails" — the answers are present in the DOM and readable via view-source; for keyboard users without JS, the buttons are non-functional but the content is in the DOM. To improve, we add a <noscript> fallback below at runtime is not possible; instead we make answers visible by default if JS fails via a class on <html>. */
   document.documentElement.classList.add('js');
 })();

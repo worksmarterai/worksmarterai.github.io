@@ -74,7 +74,7 @@
   <header class="site-header" id="header">
     <div class="wrap site-header__inner">
       <a href="#main" class="brand" aria-label="Learn to Work Smarter With AI — home">
-        <span class="brand__mark" aria-hidden="true"><span>WS</span></span>
+        <span class="brand__mark" aria-hidden="true"><img src="./assets/vincent_chimaobi.png" alt="" /></span>
         <span class="brand__txt">
           <b>LEARN TO WORK SMARTER WITH AI</b>
           <small>University Lecturer Edition</small>
@@ -101,7 +101,7 @@
     <div class="mobile-nav__backdrop" data-close-mobile-nav></div>
     <div class="mobile-nav__panel" role="dialog" aria-label="Mobile navigation" aria-modal="true">
       <div class="mobile-nav__head">
-        <span class="brand"><span class="brand__mark"><span>WS</span></span><span class="brand__txt"><b>WORK SMARTER</b><small>University Lecturer Edition</small></span></span>
+        <span class="brand"><span class="brand__mark"><img src="./assets/vincent_chimaobi.png" alt="" /></span><span class="brand__txt"><b>WORK SMARTER</b><small>University Lecturer Edition</small></span></span>
         <button class="menu-btn" data-close-mobile-nav aria-label="Close navigation menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
       <a href="#inside" data-close-mobile-nav>Inside the Guide</a>
@@ -458,10 +458,10 @@
         <div class="toolkit-hero">
           <div>
             <div class="toolkit-stats">
-              <div class="toolkit-stat"><b>63</b><span>Definitive Toolkit Prompts</span></div>
-              <div class="toolkit-stat"><b>12</b><span>Demand-Based Categories</span></div>
-              <div class="toolkit-stat"><b>90+</b><span>Chapter Prompt-Templates</span></div>
-              <div class="toolkit-stat"><b>2</b><span>Tools Covered: ChatGPT &amp; Claude</span></div>
+              <button type="button" class="toolkit-stat toolkit-stat--btn" data-proof="63" aria-haspopup="dialog" aria-expanded="false"><b>63</b><span>Definitive Toolkit Prompts</span><span class="hint">What this means →</span></button>
+              <button type="button" class="toolkit-stat toolkit-stat--btn" data-proof="12" aria-haspopup="dialog" aria-expanded="false"><b>12</b><span>Demand-Based Categories</span><span class="hint">What this means →</span></button>
+              <button type="button" class="toolkit-stat toolkit-stat--btn" data-proof="90" aria-haspopup="dialog" aria-expanded="false"><b>90+</b><span>Chapter Prompt-Templates</span><span class="hint">What this means →</span></button>
+              <button type="button" class="toolkit-stat toolkit-stat--btn" data-proof="2" aria-haspopup="dialog" aria-expanded="false"><b>2</b><span>Tools Covered: ChatGPT &amp; Claude</span><span class="hint">What this means →</span></button>
             </div>
             <div class="quick-use" aria-label="Quick use sequence">
               <span>FIND THE TASK</span><em>→</em>
@@ -967,7 +967,7 @@
     <section class="section section--warm-tint" aria-labelledby="creator-h2">
       <div class="wrap wrap--narrow">
         <div class="creator reveal-on-scroll">
-          <div class="creator__avatar" aria-hidden="true">VCO</div>
+          <div class="creator__avatar" aria-hidden="true"><img src="./assets/vincent_chimaobi.png" alt="" /></div>
           <div>
             <span class="eyebrow">AUTHOR</span>
             <h3 id="creator-h2">Vincent Chimaobi Obasiochie</h3>
@@ -1090,12 +1090,35 @@
     <div class="assistant-body" id="assistantBody" aria-live="polite" aria-atomic="false">
       <!-- messages injected by JS -->
     </div>
-    <div class="starter-chips" id="starterChips" aria-label="Suggested questions"></div>
     <form class="assistant-input" id="assistantForm">
       <label for="assistantInput" class="sr-only">Type your question</label>
       <input id="assistantInput" type="text" placeholder="Ask about the guide, price, delivery…" autocomplete="off" />
       <button type="submit" aria-label="Send question"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
     </form>
+  </div>
+
+  <!-- ============ PROOF DETAIL MODAL (interactive explanations) ============ -->
+  <div class="proof-modal" id="proofModal" data-open="false" role="dialog" aria-modal="true" aria-labelledby="proofTitle">
+    <div class="proof-modal__backdrop" id="proofBackdrop" data-close-proof></div>
+    <div class="proof-modal__dialog" role="document">
+      <div class="proof-modal__head">
+        <span class="proof-modal__num" id="proofNum">63</span>
+        <div>
+          <h3 id="proofTitle">Definitive Toolkit Prompts</h3>
+          <small id="proofSub">What this actually means for your work</small>
+        </div>
+        <button class="proof-modal__close" id="proofClose" data-close-proof aria-label="Close explanation panel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="proof-modal__body" id="proofBody">
+        <!-- content injected by JS -->
+      </div>
+      <div class="proof-modal__foot">
+        <a href="https://selar.com/k7j717m263" class="btn btn--primary btn--sm" rel="noopener" target="_blank">GET THE GUIDE FOR ₦7,700</a>
+        <button type="button" class="btn btn--ghost-light btn--sm" data-close-proof>Close</button>
+      </div>
+    </div>
   </div>
 
   <script src="./js/app.js" defer></script>
