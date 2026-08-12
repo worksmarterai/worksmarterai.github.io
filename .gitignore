@@ -1,0 +1,19 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Never commit secrets, tokens, or credentials
+*.env
+.env*
+*.pem
+*.key
+**/secrets/**
+**/credentials**
+
+# QA / working screenshots (not part of the published site)
+qa-*.png
+/qa/

@@ -1,0 +1,21 @@
+{
+  "name": "Learn to Work Smarter With AI — University Lecturer Edition",
+  "short_name": "Work Smarter AI",
+  "description": "A Practical Guide and Free AI Prompt Toolkits for Nigerian Lecturers",
+  "icons": [
+    {
+      "src": "favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#17324D",
+  "background_color": "#FCFBF7",
+  "display": "standalone",
+  "start_url": "./"
+}
