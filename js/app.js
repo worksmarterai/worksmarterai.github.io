@@ -259,6 +259,174 @@
     });
   });
 
+  /* ---------- Interactive info cards (nav-layer + path-card) ---------- */
+  // Reuses the existing proof-modal shell; content is the exact supplied copy.
+  var INFO_CARD_CONTENT = {
+    nav1: {
+      num: '01', title: 'CONTENTS AT A GLANCE',
+      sub: 'See the whole journey before deciding where to go deeper',
+      html:
+        '<div class="info-modal__lead">See the whole journey before deciding where you need to go deeper.</div>' +
+        '<div class="info-modal__block"><div class="info-modal__label">What it is</div>' +
+        '<p>A 700+ page practical guide should not require you to search hundreds of pages just to understand where something is located.</p>' +
+        '<p>CONTENTS AT A GLANCE gives you the broad map first. It shows how the seven Parts and fifteen practical chapters fit together, so you can quickly understand the journey from learning the foundations of AI to applying it to real lecturer responsibilities and eventually building reusable workflows.</p>' +
+        '<p>This is especially useful when you are not yet looking for one small topic. You may simply want to answer:</p>' +
+        '<p><em>&ldquo;Which part of this guide deals with the work I need to improve?&rdquo;</em></p></div>' +
+        '<div class="info-modal__scenario"><div class="info-modal__label">Real-work scenario</div>' +
+        '<p>Imagine that assessment preparation is consuming too much of your week.</p>' +
+        '<p>Instead of browsing through the entire guide, you can first look at CONTENTS AT A GLANCE, identify the Part and chapter dealing with questions, marking guides and feedback, and then move directly towards that area.</p>' +
+        '<p>The same approach works if your current priority is research, student supervision, academic writing, course-file organisation or NUC-related evidence.</p></div>' +
+        '<div class="info-modal__value"><div class="info-modal__label">Why this matters</div>' +
+        '<p>The size of the guide gives you depth.</p>' +
+        '<p>CONTENTS AT A GLANCE helps prevent that depth from becoming overwhelming.</p>' +
+        '<p>It lets you see the territory first, choose what matters now, and then move into the level of detail you actually need.</p></div>' +
+        '<div class="info-modal__closing gold">SEE THE JOURNEY. CHOOSE YOUR PRIORITY. GO DEEPER WHEN NEEDED.</div>'
+    },
+    nav2: {
+      num: '02', title: 'INTERACTIVE DETAILED CONTENTS',
+      sub: 'When you know what you need, move directly to it',
+      html:
+        '<div class="info-modal__lead">When you know what you need, move directly to it.</div>' +
+        '<div class="info-modal__block"><div class="info-modal__label">What it is</div>' +
+        '<p>Once you have identified the area you want to work on, INTERACTIVE DETAILED CONTENTS gives you a more precise route.</p>' +
+        '<p>Instead of repeatedly scrolling through pages, you can move directly to relevant chapters, sections, Prompt-Templates and practical resources.</p>' +
+        '<p>This turns the guide from something you only read from beginning to end into something you can return to as a working reference.</p></div>' +
+        '<div class="info-modal__scenario"><div class="info-modal__label">Real-work scenario</div>' +
+        '<p>Suppose you have already learned the foundations, but today you need to prepare a marking guide.</p>' +
+        '<p>You do not need to restart the book.</p>' +
+        '<p>Use INTERACTIVE DETAILED CONTENTS to locate the relevant assessment workflow and move directly to it.</p>' +
+        '<p>Next week, the task may be improving a manuscript paragraph, checking a questionable reference, organising research papers or preparing a student-supervision response.</p>' +
+        '<p>Again, you can locate the relevant working section without repeating material you already understand.</p></div>' +
+        '<div class="info-modal__value"><div class="info-modal__label">Why this matters</div>' +
+        '<p>Academic responsibilities do not always arrive in chapter order.</p>' +
+        '<p>The detailed navigation lets you use the guide according to the task in front of you.</p>' +
+        '<p>Learn progressively when you are studying the system. Jump directly to the relevant resource when you are working.</p></div>' +
+        '<div class="info-modal__closing gold">KNOW THE TASK. FIND THE SECTION. CONTINUE WORKING.</div>'
+    },
+    nav3: {
+      num: '03', title: 'EXPANDABLE BOOKMARK NAVIGATION',
+      sub: 'Return to the workflows and resources you use most',
+      html:
+        '<div class="info-modal__lead">Return to the workflows and resources you use most without searching for them again.</div>' +
+        '<div class="info-modal__block"><div class="info-modal__label">What it is</div>' +
+        '<p>Some parts of the guide will become resources you return to repeatedly.</p>' +
+        '<p>EXPANDABLE BOOKMARK NAVIGATION provides deeper sidebar access through an organised hierarchy of Parts, chapters, sections, subsections and selected high-value resources.</p>' +
+        '<p>You can expand the navigation, move deeper into the structure and return to useful working areas without manually searching through the document every time.</p></div>' +
+        '<div class="info-modal__scenario"><div class="info-modal__label">Real-work scenario</div>' +
+        '<p>Imagine that you regularly supervise student projects.</p>' +
+        '<p>You have already studied the relevant method, so you do not need the complete explanation every time another draft arrives.</p>' +
+        '<p>You can use the expandable bookmarks to move back towards the supervision workflow or resource you need, apply it to the new material, inspect the result and continue.</p>' +
+        '<p>The same principle applies to recurring assessment, research, writing, document and course-file tasks.</p></div>' +
+        '<div class="info-modal__value"><div class="info-modal__label">Why this matters</div>' +
+        '<p>The first time you use the guide, you may be learning.</p>' +
+        '<p>Later, you may simply need to retrieve a proven workflow quickly.</p>' +
+        '<p>EXPANDABLE BOOKMARK NAVIGATION supports that transition from learning the system to repeatedly using the system.</p></div>' +
+        '<div class="info-modal__closing gold">LEARN IT ONCE. FIND IT AGAIN. PUT IT BACK TO WORK.</div>'
+    },
+    path1: {
+      num: '1', title: 'NEW TO AI',
+      sub: 'STARTING LEVEL 1',
+      html:
+        '<div class="info-modal__lead">You do not need to become a programmer or prompt engineer before you can start.</div>' +
+        '<div class="info-modal__block"><div class="info-modal__label">What it is</div>' +
+        '<p>This starting level is for the lecturer who has little or no practical experience with ChatGPT or Claude.</p>' +
+        '<p>The guide begins by helping you understand what AI can do, what should remain under your judgement, how to set up the tools, and how to communicate a real academic task clearly.</p>' +
+        '<p>You begin with familiar work rather than technical theory.</p>' +
+        '<p>You already understand your academic responsibility.</p>' +
+        '<p>The guide teaches you how to give AI the right material, explain what you need, inspect what it produces and remain responsible for the final decision.</p></div>' +
+        '<div class="info-modal__scenario"><div class="info-modal__label">Real-work scenario</div>' +
+        '<p>Imagine that tomorrow&rsquo;s lecture still needs preparation.</p>' +
+        '<p>You have your topic, course material and professional knowledge, but you have never used ChatGPT or Claude for serious academic work.</p>' +
+        '<p>The guide shows you how to begin with the material you already trust, state the task clearly, obtain a useful working output, inspect it and correct what needs improvement.</p>' +
+        '<p>You are not expected to know complicated AI terminology before beginning.</p></div>' +
+        '<div class="info-modal__value"><div class="info-modal__label">What changes for the lecturer</div>' +
+        '<p>Instead of wondering, &ldquo;What am I supposed to type into AI?&rdquo;, you begin learning a repeatable process for turning familiar lecturer responsibilities into clear, controlled AI-assisted tasks.</p></div>' +
+        '<div class="info-modal__progression"><div class="info-modal__label" style="margin-bottom:.2rem">The progression</div>' +
+        '<div class="step"><b>L1</b> UNDERSTAND AND START</div><div class="arr" aria-hidden="true">&#8595;</div>' +
+        '<div class="step"><b>L2</b> IMPROVE AND CONTROL</div><div class="arr" aria-hidden="true">&#8595;</div>' +
+        '<div class="step"><b>L3</b> SYSTEMATISE AND REUSE</div>' +
+        '<div class="support">WHEREVER YOU ARE STARTING, THE GUIDE SHOWS YOU THE NEXT PRACTICAL STEP.</div></div>' +
+        '<div class="info-modal__block"><div class="info-modal__label">Next progression</div>' +
+        '<p>As you become comfortable giving AI clear material and instructions, you naturally move towards STARTING LEVEL 2, where the focus shifts from simply using AI to getting more consistent and useful results.</p></div>' +
+        '<div class="info-modal__closing">START WITH THE WORK YOU ALREADY KNOW.</div>'
+    },
+    path2: {
+      num: '2', title: 'SOME EXPERIMENTATION',
+      sub: 'STARTING LEVEL 2',
+      html:
+        '<div class="info-modal__lead">Move from occasional AI attempts to clearer, more dependable working methods.</div>' +
+        '<div class="info-modal__block"><div class="info-modal__label">What it is</div>' +
+        '<p>This starting level is for the lecturer who has already tried ChatGPT, Claude or similar AI tools but finds that the quality of the results changes from one attempt to another.</p>' +
+        '<p>Sometimes the response is useful.</p>' +
+        '<p>Sometimes it is too general, misunderstands the task or gives information that still requires substantial correction.</p>' +
+        '<p>The guide helps you improve the quality of the material you provide, define the task more clearly, specify the expected output, inspect weak areas and refine the result instead of repeatedly starting over.</p></div>' +
+        '<div class="info-modal__scenario"><div class="info-modal__label">Real-work scenario</div>' +
+        '<p>Suppose you ask AI:</p>' +
+        '<p><em>&ldquo;Prepare questions for my students.&rdquo;</em></p>' +
+        '<p>You may receive questions, but they might not match your course material, level, coverage or intended assessment.</p>' +
+        '<p>The guide moves you towards a stronger process.</p>' +
+        '<p>You provide the relevant material, identify the students or level, state what should be assessed, define the required question structure and inspect the resulting output against your academic judgement.</p>' +
+        '<p>The difference is not simply using more words. The difference is giving AI the context and controls it needs to support the actual task.</p></div>' +
+        '<div class="info-modal__value"><div class="info-modal__label">What changes for the lecturer</div>' +
+        '<p>AI begins to feel less random because you stop treating every interaction as an isolated experiment.</p>' +
+        '<p>Successful instructions, Prompt-Templates, files and working methods can be retained and reused.</p></div>' +
+        '<div class="info-modal__progression"><div class="info-modal__label" style="margin-bottom:.2rem">The progression</div>' +
+        '<div class="step"><b>L1</b> UNDERSTAND AND START</div><div class="arr" aria-hidden="true">&#8595;</div>' +
+        '<div class="step"><b>L2</b> IMPROVE AND CONTROL</div><div class="arr" aria-hidden="true">&#8595;</div>' +
+        '<div class="step"><b>L3</b> SYSTEMATISE AND REUSE</div>' +
+        '<div class="support">WHEREVER YOU ARE STARTING, THE GUIDE SHOWS YOU THE NEXT PRACTICAL STEP.</div></div>' +
+        '<div class="info-modal__block"><div class="info-modal__label">Next progression</div>' +
+        '<p>Once you can produce useful results more consistently, STARTING LEVEL 3 helps you organise those successful methods into reusable systems for recurring academic work.</p></div>' +
+        '<div class="info-modal__closing">MOVE FROM RANDOM RESULTS TO REPEATABLE METHODS.</div>'
+    },
+    path3: {
+      num: '3', title: 'READY TO SYSTEMATISE',
+      sub: 'STARTING LEVEL 3',
+      html:
+        '<div class="info-modal__lead">Stop rebuilding successful AI workflows from the beginning every time the same work returns.</div>' +
+        '<div class="info-modal__block"><div class="info-modal__label">What it is</div>' +
+        '<p>This starting level is for the lecturer who already uses AI occasionally and understands the basics, but now wants a more organised way to reuse what works.</p>' +
+        '<p>The guide helps you move beyond isolated conversations towards a Personal Lecturer AI System built around reusable prompts, trusted files, records and recurring semester workflows.</p>' +
+        '<p>The objective is to reduce unnecessary repetition around the work you already know how to do.</p></div>' +
+        '<div class="info-modal__scenario"><div class="info-modal__label">Real-work scenario</div>' +
+        '<p>Suppose you supervise student projects every semester.</p>' +
+        '<p>You may repeatedly find yourself explaining similar requirements, reviewing recurring weaknesses, organising corrections and rebuilding instructions for AI from the beginning.</p>' +
+        '<p>Once you have developed and checked a useful workflow, the guide shows you how to preserve the parts that should be reusable.</p>' +
+        '<p>When another appropriate task appears, you start from a proven structure, replace the relevant details, supply the new material, review the output and adapt it to the current case.</p>' +
+        '<p>The same principle can support recurring lecture preparation, assessment, marking and feedback, research organisation, academic writing, document work and course-file responsibilities.</p></div>' +
+        '<div class="info-modal__value"><div class="info-modal__label">What changes for the lecturer</div>' +
+        '<p>AI stops being only a tool you occasionally open.</p>' +
+        '<p>Your successful methods begin becoming reusable working assets.</p>' +
+        '<p>That is the purpose of the Personal Lecturer AI System.</p></div>' +
+        '<div class="info-modal__progression"><div class="info-modal__label" style="margin-bottom:.2rem">The progression</div>' +
+        '<div class="step"><b>L1</b> UNDERSTAND AND START</div><div class="arr" aria-hidden="true">&#8595;</div>' +
+        '<div class="step"><b>L2</b> IMPROVE AND CONTROL</div><div class="arr" aria-hidden="true">&#8595;</div>' +
+        '<div class="step"><b>L3</b> SYSTEMATISE AND REUSE</div>' +
+        '<div class="support">WHEREVER YOU ARE STARTING, THE GUIDE SHOWS YOU THE NEXT PRACTICAL STEP.</div></div>' +
+        '<div class="info-modal__closing">BUILD IT ONCE. IMPROVE IT. REUSE WHAT WORKS.</div>'
+    }
+  };
+
+  function openInfoCard(key, trigger) {
+    var data = INFO_CARD_CONTENT[key];
+    if (!data || !proofModal) return;
+    proofLastFocus = trigger || document.activeElement;
+    proofNum.textContent = data.num;
+    proofTitle.textContent = data.title;
+    proofSub.textContent = data.sub;
+    proofBody.innerHTML = data.html;
+    proofModal.setAttribute('data-open', 'true');
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () { var c = $('#proofClose'); if (c) c.focus(); }, 60);
+  }
+
+  $all('[data-info-card]').forEach(function (card) {
+    on(card, 'click', function () {
+      openInfoCard(card.getAttribute('data-info-card'), card);
+    });
+  });
+
   /* ---------- Hero proof badges — reuse existing scroll + proof-modal ---------- */
   $all('.proof-chip--btn').forEach(function (chip) {
     on(chip, 'click', function () {
@@ -509,7 +677,7 @@
 
   function greet() {
     if (assistantBody.children.length > 0) return;
-    var bubble = addBotMessage('Hello. I\u2019m the LECTURER GUIDE AI SALES ASSISTANT \u2014 an automated product, purchase and support assistant. Ask me about the guide, the free WhatsApp Channel Toolkit, price, delivery or referral. How can I help?', null);
+    var bubble = addBotMessage('Hello. I\u2019m the LECTURER GUIDE AI SALES ASSISTANT, an automated product, purchase and support assistant. Ask me about the guide, the free WhatsApp Channel Toolkit, price, delivery or referral. How can I help?', null);
     addQuickReplies(FOLLOWUPS._initial, bubble);
     scrollToBottom(true);
   }

@@ -736,6 +736,36 @@ ul,ol{list-style:none}
 .proof-modal__result b{color:var(--c-green)}
 .proof-modal__foot{padding:0.8rem 1.3rem;border-top:1px solid var(--c-line);background:var(--c-warm-50);display:flex;gap:0.6rem;justify-content:flex-end;flex-wrap:wrap}
 
+/* ==========================================================================
+   INTERACTIVE INFO CARDS — nav-layer + path-card made clickable buttons
+   Reuses the proof-modal component shell for the explanatory panel.
+   ========================================================================== */
+.card--btn{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;display:block;position:relative}
+.card--btn:focus-visible{outline:3px solid var(--c-teal);outline-offset:3px}
+.card--btn-hint{display:block;margin-top:0.7rem;font-size:0.7rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--c-teal-dark);opacity:0.85}
+/* Info-modal content blocks (separated title/lead/body/scenario/value/progression/closing) */
+.info-modal__lead{font-size:1rem;font-weight:600;color:var(--c-navy);line-height:1.55;margin-bottom:1rem;padding-bottom:0.9rem;border-bottom:1px solid var(--c-line-soft)}
+.info-modal__block{margin-bottom:1rem}
+.info-modal__block:last-child{margin-bottom:0}
+.info-modal__label{font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-teal-dark);margin-bottom:0.35rem}
+.info-modal__block p{font-size:0.9rem;color:var(--c-charcoal);line-height:1.6;margin-bottom:0.5rem}
+.info-modal__scenario{padding:0.9rem 1rem;border-radius:var(--radius);background:var(--c-warm-100);border:1px solid var(--c-line)}
+.info-modal__scenario p{font-size:0.88rem;color:var(--c-charcoal);line-height:1.6}
+.info-modal__scenario p:last-child{margin-bottom:0}
+.info-modal__value{padding:0.9rem 1rem;border-radius:var(--radius);background:linear-gradient(160deg,var(--c-green-soft),var(--c-warm-white));border:1px solid rgba(11,122,83,0.24)}
+.info-modal__value p{font-size:0.88rem;color:var(--c-charcoal);line-height:1.6}
+.info-modal__value p:last-child{margin-bottom:0}
+.info-modal__progression{display:flex;flex-direction:column;gap:0.4rem;padding:0.9rem 1rem;border-radius:var(--radius);background:var(--c-teal-soft);border:1px solid rgba(20,125,132,0.24)}
+.info-modal__progression .step{display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;font-weight:700;color:var(--c-teal-dark);letter-spacing:0.04em}
+.info-modal__progression .step b{font-size:0.72rem;background:var(--c-navy);color:var(--c-gold);padding:0.15rem 0.45rem;border-radius:5px;letter-spacing:0.06em}
+.info-modal__progression .arr{align-self:center;color:var(--c-teal);font-size:1rem;line-height:1}
+.info-modal__progression .support{font-size:0.8rem;font-weight:600;color:var(--c-navy);text-align:center;margin-top:0.4rem;line-height:1.5}
+.info-modal__closing{margin-top:1rem;padding:0.85rem 1rem;border-radius:var(--radius);background:linear-gradient(120deg,var(--c-navy),var(--c-navy-dark));color:var(--c-on-dark);font-size:0.82rem;font-weight:800;letter-spacing:0.04em;text-align:center;line-height:1.5}
+.info-modal__closing.gold{color:var(--c-gold)}
+@media (max-width:480px){
+  .info-modal__progression .step{font-size:0.78rem}
+}
+
 /* Mobile assistant sizing — keep inside viewport, controls reachable */
 @media (max-width:480px){
   .assistant-panel{right:0.5rem;left:0.5rem;bottom:calc(env(safe-area-inset-bottom,0px) + 66px);width:auto;max-height:min(72vh,calc(100vh - 150px))}
