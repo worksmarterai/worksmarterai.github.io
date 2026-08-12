@@ -326,6 +326,11 @@ ul,ol{list-style:none}
   background:var(--c-warm-100);border:1px solid var(--c-line);font-size:0.78rem;font-weight:700;color:var(--c-navy);letter-spacing:0.01em
 }
 .proof-chip b{color:var(--c-teal-dark)}
+/* Interactive proof-chip badge — reuses existing chip look, adds affordances */
+.proof-chip--btn{cursor:pointer;font:inherit;text-align:left;transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease),border-color var(--dur) var(--ease),background var(--dur) var(--ease)}
+.proof-chip--btn:hover{transform:translateY(-1px);border-color:rgba(20,125,132,0.42);box-shadow:0 6px 14px -6px var(--c-teal-glow)}
+.proof-chip--btn:active{transform:translateY(0)}
+.proof-chip--btn:focus-visible{outline:3px solid var(--c-teal);outline-offset:2px}
 .hero__price-row{margin-top:1.7rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .hero__channel{margin-top:1.2rem;display:inline-flex;align-items:center;gap:0.5rem;font-size:0.92rem;font-weight:600;color:var(--c-green)}
 .hero__channel a{color:var(--c-green);border-bottom:1px solid rgba(11,122,83,0.3)}

@@ -51,19 +51,23 @@
   });
 
   /* ---------- smooth-scroll with sticky-header offset ---------- */
+  function scrollToSection(id) {
+    var target = document.getElementById(id);
+    if (!target) return;
+    var offset = (header ? header.offsetHeight : 0) + 8;
+    var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+    if (mobileNav.getAttribute('data-open') === 'true') closeMobileNav();
+    window.scrollTo({ top: top, behavior: reducedMotion ? 'auto' : 'smooth' });
+    target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  }
   $all('a[href^="#"]').forEach(function (a) {
     on(a, 'click', function (e) {
       var id = a.getAttribute('href');
       if (id === '#' || id.length < 2) return;
-      var target = document.getElementById(id.slice(1));
-      if (!target) return;
+      if (!document.getElementById(id.slice(1))) return;
       e.preventDefault();
-      var offset = (header ? header.offsetHeight : 0) + 8;
-      var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
-      if (mobileNav.getAttribute('data-open') === 'true') closeMobileNav();
-      window.scrollTo({ top: top, behavior: reducedMotion ? 'auto' : 'smooth' });
-      target.setAttribute('tabindex', '-1');
-      target.focus({ preventScroll: true });
+      scrollToSection(id.slice(1));
     });
   });
 
@@ -252,6 +256,16 @@
     on(btn, 'click', function () {
       var key = btn.getAttribute('data-proof');
       openProof(key, btn);
+    });
+  });
+
+  /* ---------- Hero proof badges — reuse existing scroll + proof-modal ---------- */
+  $all('.proof-chip--btn').forEach(function (chip) {
+    on(chip, 'click', function () {
+      var go = chip.getAttribute('data-proof-go');
+      var modal = chip.getAttribute('data-proof-modal');
+      if (go) { scrollToSection(go); }
+      else if (modal) { openProof(modal, chip); }
     });
   });
   $all('[data-close-proof]').forEach(function (el) { on(el, 'click', closeProof); });
